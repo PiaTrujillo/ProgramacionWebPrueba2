@@ -10,10 +10,20 @@ rut.value = cuerpo + '-'+ dv // Formatear RUN
 var p1 = document.getElementById("password").value;
 var p2 = document.getElementById("passwdord2").value;
 var espacios = false;
+var numeros = false;
 var cont = 0;
+
 while (!espacios && (cont < p1.length)) {
-    if (p1.charAt(cont) == " " || isNan(p1.charAt(cont)) )
-      espacios = true;
+    if (p1.charAt(cont) == " " || isNan(p1.charAt(cont)) ){ //Se valida que la contraseña no tenga espacio
+        espacios = true;
+    }
+    cont++;
+};
+var cont = 0;
+while (!numeros && (cont < p1.length)) {
+    if (isNan(p1.charAt(cont)) ){ //Se valida que la contraseña no contenga números
+        numeros = true;
+    }
     cont++;
 };
 
@@ -37,7 +47,7 @@ function validacion() {
         return false;
     }
     
-    else if( rut ){
+    else if( rut != null && rut.length > 0){
         // Si no cumple con el mínimo ej. (n.nnn.nnn)
         if(cuerpo.length < 7) { 
             rut.setCustomValidity("RUT muy corto"); 
@@ -64,7 +74,8 @@ function validacion() {
         dv = (dv == 'K')?10:dv;
         dv = (dv == 0)?11:dv;
         // Validar que el Cuerpo coincide con su Dígito Verificador
-        if(dvEsperado != dv) { rut.setCustomValidity("RUT inválido"); 
+        if(dvEsperado != dv) { 
+            rut.setCustomValidity("RUT inválido"); 
             return false;
         }
         // // Si todo sale bien, eliminar errores (decretar que es válido)
@@ -74,8 +85,14 @@ function validacion() {
 
     //VALIDACION CONTRASEÑA
     else if (espacios = true){
-            p1.setCustomValidity("Contraseña con formato incorrecto"); 
-            return false;
+        p1.setCustomValidity("Contraseña con formato incorrecto"); 
+        return false;
+    }
+
+    //VALIDACION CONTRASEÑA
+    else if (numeros = false){
+        p1.setCustomValidity("Contraseña no contiene números"); 
+        return false;
     }
 
     else if (p1 != p2){
